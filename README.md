@@ -1,4 +1,3 @@
-![github](https://github.com/user-attachments/assets/575535bb-8470-4682-ad54-d9f086b70f81)
 # FCT
 
 (F*ck Corporation Tactics)
