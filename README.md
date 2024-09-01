@@ -13,7 +13,7 @@ https://discord.com/oauth2/authorize?client_id=1279590815827628174
 
 Video Demo:
 
-![gif](https://github.com/user-attachments/assets/c6d48a18-8269-40d6-ad91-9dc023da43c2)
+![](https://github.com/user-attachments/assets/c6d48a18-8269-40d6-ad91-9dc023da43c2)
 
 
 
