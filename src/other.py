@@ -16,7 +16,7 @@ class UnknownAlternateDownloader(AlternateVideoDownloader):
             "outtmpl": os.path.join(path, "%(id)s.%(ext)s"),
             "noplaylist": True,
             "default_search": "auto",
-            "nooverwrites": False, # We may have a video with the same id from a different source
+            "nooverwrites": False,  # We may have a video with the same id from a different source
             "quiet": True,
         }
 

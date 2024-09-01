@@ -108,8 +108,8 @@ async def get_details(
         return
     except AbstractClassUsedError:
         await interaction.followup.send(
-            "Something went horribly wrong, error saved, please try again later", 
-            ephemeral=True
+            "Something went horribly wrong, error saved, please try again later",
+            ephemeral=True,
         )
         logging.exception(
             "An abstract class was used, this should not happen", exc_info=True
@@ -117,8 +117,8 @@ async def get_details(
         return
     except Exception as e:
         await interaction.followup.send(
-            "An unknown error occurred, report saved, please try again later", 
-            ephemeral=True
+            "An unknown error occurred, report saved, please try again later",
+            ephemeral=True,
         )
         raise e
 
@@ -131,7 +131,8 @@ async def _convert_to_discord_files(
         return _convert_paths_to_discord_files(file_paths)
     except Exception as e:
         await interaction.followup.send(
-            "An unknown error occurred, error saved, please report if not fixed after a while", ephemeral=True
+            "An unknown error occurred, error saved, please report if not fixed after a while",
+            ephemeral=True,
         )
         raise e  # re-raise the exception so we can see what went wrong
 

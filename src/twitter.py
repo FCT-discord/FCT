@@ -5,7 +5,14 @@ import bs4
 from dotenv import load_dotenv
 import requests
 
-from src.downloader import AlternateVideoDownloader, DownloadFailedError, VideoDownloader, VideoFile, VIDEO_RETURN_TYPE, VideoFiles
+from src.downloader import (
+    AlternateVideoDownloader,
+    DownloadFailedError,
+    VideoDownloader,
+    VideoFile,
+    VIDEO_RETURN_TYPE,
+    VideoFiles,
+)
 
 
 load_dotenv()
@@ -49,6 +56,7 @@ def _get_highest_quality_url_list(response: requests.Response) -> list[str]:
         highest_quality_url_list.append(highest_quality_url)
 
     return highest_quality_url_list
+
 
 def _get_title(response: requests.Response) -> str:
     data = bs4.BeautifulSoup(response.text, "html.parser")

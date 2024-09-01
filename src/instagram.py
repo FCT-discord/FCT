@@ -5,11 +5,21 @@ import re
 from pathlib import Path
 
 from dotenv import load_dotenv
-from instaloader import ConnectionException, LoginException, QueryReturnedBadRequestException
+from instaloader import (
+    ConnectionException,
+    LoginException,
+    QueryReturnedBadRequestException,
+)
 from instaloader.instaloader import Instaloader
 from instaloader.structures import Post
 
-from src.downloader import VIDEO_RETURN_TYPE, AlternateVideoDownloader, VideoFile, VideoDownloader, VideoFiles
+from src.downloader import (
+    VIDEO_RETURN_TYPE,
+    AlternateVideoDownloader,
+    VideoFile,
+    VideoDownloader,
+    VideoFiles,
+)
 from src.Read import json_read, write_json
 
 _SHORTCODE_REGEX = (
@@ -50,14 +60,14 @@ def _login() -> bool:
         downloader.load_session(username, session_data)
         return True
 
-    if (session_data:=os.getenv("INSTAGRAM_SESSION")):
+    if session_data := os.getenv("INSTAGRAM_SESSION"):
         # this function will only be used in github actions
         # so we can assume that the session data is in the correct format
         # and if not, it should crash anyways
-        import json # pylint: disable=import-outside-toplevel # this is only used in this branch
+        import json  # pylint: disable=import-outside-toplevel # this is only used in this branch
+
         downloader.load_session(username, json.loads(session_data))
         return True
-
 
     password = os.getenv("INSTAGRAM_PASSWORD")
     if password is None:
@@ -75,12 +85,14 @@ def _login() -> bool:
         logging.error("Instagram login failed!!! FIX CREDENTIALS. Error: %s", e)
         return False
 
+
 def _try_login():
-    global logged_in # pylint: disable=global-statement # don't really mind having a global login
+    global logged_in  # pylint: disable=global-statement # don't really mind having a global login
     if not logged_in:
         logged_in = _login()
-        logging.debug("Logged in to instagram" if logged_in else "Couldn't log into instagram")
-
+        logging.debug(
+            "Logged in to instagram" if logged_in else "Couldn't log into instagram"
+        )
 
 
 _try_login()
@@ -95,24 +107,32 @@ def _get_shortcode_from_url(url: str) -> str | None:
         return None
     return shortcode
 
+
 def _get_post_from_url(url: str) -> Post | None:
     shortcode = _get_shortcode_from_url(url)
     if shortcode is None:
         return None
     try:
         return Post.from_shortcode(downloader.context, shortcode)
-    except (ConnectionException, QueryReturnedBadRequestException) as e:  # probably graphql error
+    except (
+        ConnectionException,
+        QueryReturnedBadRequestException,
+    ) as e:  # probably graphql error
         logging.exception(e)
         return None
+
 
 def _get_file_name(post: Post, index: int) -> str:
     is_multi_vid = post.typename == "GraphSidecar"
     to_add = f"_{index}" if is_multi_vid else ""
     return f"{post.shortcode}{to_add}.mp4"
 
+
 class InstagramAlternativeDownloader(AlternateVideoDownloader):
     @classmethod
-    async def download_video_from_link(cls, url: str, path: str | None = None) -> VIDEO_RETURN_TYPE:
+    async def download_video_from_link(
+        cls, url: str, path: str | None = None
+    ) -> VIDEO_RETURN_TYPE:
         if path is None:
             path = os.path.join("downloads", "instagram")
 
@@ -121,20 +141,25 @@ class InstagramAlternativeDownloader(AlternateVideoDownloader):
         cookies = json_read("instagram_session")
 
         specific_options = {
-            'format': 'best',
+            "format": "best",
             "outtmpl": os.path.join(path, "%(id)s.%(ext)s"),
-            'noplaylist': True,
-            'default_search': 'auto',
-            'nooverwrites': True,
-            'quiet': True,
+            "noplaylist": True,
+            "default_search": "auto",
+            "nooverwrites": True,
+            "quiet": True,
         }
-        return await cls._get_list_from_ydt(url, specific_options, path, "description", cookies)
+        return await cls._get_list_from_ydt(
+            url, specific_options, path, "description", cookies
+        )
+
 
 class InstagramDownloader(VideoDownloader):
     @classmethod
-    async def download_video_from_link(cls, url: str, path: str | None = None) -> VIDEO_RETURN_TYPE:
+    async def download_video_from_link(
+        cls, url: str, path: str | None = None
+    ) -> VIDEO_RETURN_TYPE:
         attachment_list: list[VideoFile] = []
-        _try_login() # try to login if not already logged in
+        _try_login()  # try to login if not already logged in
 
         if path is None:
             path = os.path.join("downloads", "instagram")
@@ -144,8 +169,13 @@ class InstagramDownloader(VideoDownloader):
         post = _get_post_from_url(url)
         # if we can't get the post, use the alternative downloader
         if post is None:
-            logging.warning("Couldn't get post from url: %s in instaloader, trying alternative downloader", url)
-            return await InstagramAlternativeDownloader.download_video_from_link(url, path)
+            logging.warning(
+                "Couldn't get post from url: %s in instaloader, trying alternative downloader",
+                url,
+            )
+            return await InstagramAlternativeDownloader.download_video_from_link(
+                url, path
+            )
 
         downloader.filename_pattern = "{shortcode}"
 
@@ -153,7 +183,7 @@ class InstagramDownloader(VideoDownloader):
 
         downloaded: bool = False
         caption = post.caption
-        for index in range(1, video_count + 1): # will run once if not sidecar
+        for index in range(1, video_count + 1):  # will run once if not sidecar
             file_path = os.path.join(path, _get_file_name(post, index))
             file = VideoFile(file_path)
 
