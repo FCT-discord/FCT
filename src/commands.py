@@ -13,7 +13,7 @@ tree = app_commands.CommandTree(discord_client)
 
 @app_commands.allowed_installs(guilds=True, users=True)
 @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
-@tree.context_menu(name="download-video-from-link")
+@tree.context_menu(name="download-video")
 async def download_video_link(
     interaction: discord.Interaction, message: discord.Message
 ):
@@ -23,7 +23,7 @@ async def download_video_link(
 
 @app_commands.allowed_installs(guilds=False, users=True)
 @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
-@tree.context_menu(name="secretly-download-video-from-link")
+@tree.context_menu(name="secretly-download-video")
 async def download_video_link_hidden(
     interaction: discord.Interaction, message: discord.Message
 ):

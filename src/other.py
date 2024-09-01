@@ -1,12 +1,12 @@
 import os
-from src.downloader import VIDEO_RETURN_TYPE, AlternateVideoDownloader
+from src.downloader import DownloadedVideos, AlternateVideoDownloader
 
 
 class UnknownAlternateDownloader(AlternateVideoDownloader):
     @classmethod
     async def download_video_from_link(
         cls, url: str, path: str | None = None
-    ) -> VIDEO_RETURN_TYPE:
+    ) -> DownloadedVideos:
         if path is None:
             path = os.path.join("downloads", "other")
 

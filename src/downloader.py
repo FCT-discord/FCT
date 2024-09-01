@@ -87,7 +87,7 @@ class VideoFiles(list[VideoFile]):
         return full_title if full_title else None
 
 
-VIDEO_RETURN_TYPE = VideoFiles
+DownloadedVideos = VideoFiles
 
 
 class VideoDownloader(ABC):
@@ -99,7 +99,7 @@ class VideoDownloader(ABC):
     @abstractmethod
     async def download_video_from_link(
         cls, url: str, path: str | None = None
-    ) -> VIDEO_RETURN_TYPE:
+    ) -> DownloadedVideos:
         """
         Downloads Videos from a url
         if path is None, the default path is downloads/{website_name}
@@ -192,7 +192,7 @@ class AlternateVideoDownloader(VideoDownloader):
         path: str,
         title_key: str = "title",
         cookies: dict | None = None,
-    ) -> VIDEO_RETURN_TYPE:
+    ) -> DownloadedVideos:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             if cookies:
                 requests.utils.cookiejar_from_dict(cookies, ydl.cookiejar)

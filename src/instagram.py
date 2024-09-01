@@ -14,7 +14,7 @@ from instaloader.instaloader import Instaloader
 from instaloader.structures import Post
 
 from src.downloader import (
-    VIDEO_RETURN_TYPE,
+    DownloadedVideos,
     AlternateVideoDownloader,
     VideoFile,
     VideoDownloader,
@@ -28,7 +28,7 @@ _SHORTCODE_REGEX = (
 
 load_dotenv()
 
-logged_in = False
+is_logged_in = False  # pylint: disable=invalid-name # this is a global updated variable, so it's fine to have it in snake_case
 
 downloader = Instaloader(
     download_videos=True,
@@ -46,7 +46,7 @@ def _login() -> bool:
     Returns:
         bool: True if the session was loaded successfully
     """
-    if logged_in:
+    if is_logged_in:
         return True
 
     username = os.getenv("INSTAGRAM_USERNAME")
@@ -87,11 +87,11 @@ def _login() -> bool:
 
 
 def _try_login():
-    global logged_in  # pylint: disable=global-statement # don't really mind having a global login
-    if not logged_in:
-        logged_in = _login()
+    global is_logged_in  # pylint: disable=global-statement # don't really mind having a global login
+    if not is_logged_in:
+        is_logged_in = _login()
         logging.debug(
-            "Logged in to instagram" if logged_in else "Couldn't log into instagram"
+            "Logged in to instagram" if is_logged_in else "Couldn't log into instagram"
         )
 
 
@@ -132,7 +132,7 @@ class InstagramAlternativeDownloader(AlternateVideoDownloader):
     @classmethod
     async def download_video_from_link(
         cls, url: str, path: str | None = None
-    ) -> VIDEO_RETURN_TYPE:
+    ) -> DownloadedVideos:
         if path is None:
             path = os.path.join("downloads", "instagram")
 
@@ -157,7 +157,7 @@ class InstagramDownloader(VideoDownloader):
     @classmethod
     async def download_video_from_link(
         cls, url: str, path: str | None = None
-    ) -> VIDEO_RETURN_TYPE:
+    ) -> DownloadedVideos:
         attachment_list: list[VideoFile] = []
         _try_login()  # try to login if not already logged in
 

@@ -4,7 +4,7 @@ from typing import Optional, Type
 import discord
 
 from src.downloader import (
-    VIDEO_RETURN_TYPE,
+    DownloadedVideos,
     AbstractClassUsedError,
     DownloadFailedError,
     NoVideoFoundError,
@@ -89,7 +89,7 @@ def _get_caption_and_view(
 
 async def get_details(
     downloader: Type[VideoDownloader], url: str, interaction: discord.Interaction
-) -> Optional[VIDEO_RETURN_TYPE]:
+) -> Optional[DownloadedVideos]:
     try:
         return await downloader.download_video_from_link(url)
     except DownloadFailedError:
@@ -124,7 +124,7 @@ async def get_details(
 
 
 async def _convert_to_discord_files(
-    interaction: discord.Interaction, attachments: VIDEO_RETURN_TYPE
+    interaction: discord.Interaction, attachments: DownloadedVideos
 ) -> list[discord.File]:
     try:
         file_paths = [attachment.path for attachment in attachments]
