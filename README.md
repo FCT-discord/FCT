@@ -1,4 +1,4 @@
-
+![github](https://github.com/user-attachments/assets/575535bb-8470-4682-ad54-d9f086b70f81)
 # FCT
 
 (F*ck Corporation Tactics)
@@ -13,7 +13,7 @@ https://discord.com/oauth2/authorize?client_id=1279590815827628174
 
 Video Demo:
 
-![](https://github.com/user-attachments/assets/c6d48a18-8269-40d6-ad91-9dc023da43c2)
+![github](https://github.com/user-attachments/assets/29af2df9-7147-4ceb-aad3-ef24a676a3b6)
 
 
 
