@@ -15,9 +15,8 @@ def is_server(only_true_if_cloud: bool = True) -> bool:
     dev = os.getenv("DEV")
     cloud = os.getenv("CLOUD")
     is_cloud = cloud == "true"
-    if cloud is not None:
-        if not only_true_if_cloud or is_cloud:
-            return is_cloud
+    if cloud and (not only_true_if_cloud or is_cloud):
+        return is_cloud
     if dev is not None and dev == "true":
         return False
     return platform == "linux" or platform == "linux2"
