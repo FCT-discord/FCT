@@ -14,7 +14,7 @@ from instaloader.instaloader import Instaloader
 from instaloader.structures import Post
 
 from src.downloader import (
-    VIDEO_RETURN_TYPE,
+    DownloadedVideos,
     AlternateVideoDownloader,
     VideoFile,
     VideoDownloader,
@@ -132,7 +132,7 @@ class InstagramAlternativeDownloader(AlternateVideoDownloader):
     @classmethod
     async def download_video_from_link(
         cls, url: str, path: str | None = None
-    ) -> VIDEO_RETURN_TYPE:
+    ) -> DownloadedVideos:
         if path is None:
             path = os.path.join("downloads", "instagram")
 
@@ -157,7 +157,7 @@ class InstagramDownloader(VideoDownloader):
     @classmethod
     async def download_video_from_link(
         cls, url: str, path: str | None = None
-    ) -> VIDEO_RETURN_TYPE:
+    ) -> DownloadedVideos:
         attachment_list: list[VideoFile] = []
         _try_login()  # try to login if not already logged in
 

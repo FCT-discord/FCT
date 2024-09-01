@@ -1,6 +1,6 @@
 import subprocess
 
-from src.downloader import VIDEO_RETURN_TYPE, VideoFile
+from src.downloader import DownloadedVideos, VideoFile
 
 
 def _get_video_duration(video_path: str) -> float:
@@ -14,13 +14,13 @@ def _get_video_duration(video_path: str) -> float:
 
 
 class DownloadTester:
-    def download_single_video_test(self, videos: VIDEO_RETURN_TYPE, should_be_path: str):
+    def download_single_video_test(self, videos: DownloadedVideos, should_be_path: str):
         assert len(videos) == 1
         video = videos[0]
 
         self._test_download(video, should_be_path)
 
-    def download_multiple_video_test(self, videos: VIDEO_RETURN_TYPE, should_be_paths: list[str]):
+    def download_multiple_video_test(self, videos: DownloadedVideos, should_be_paths: list[str]):
         assert len(videos) == len(should_be_paths), f"len(videos)={len(videos)} len(should_be_paths)={len(should_be_paths)}"
 
         for video, should_be_path in zip(videos, should_be_paths):

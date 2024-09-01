@@ -10,7 +10,7 @@ from src.downloader import (
     DownloadFailedError,
     VideoDownloader,
     VideoFile,
-    VIDEO_RETURN_TYPE,
+    DownloadedVideos,
     VideoFiles,
 )
 
@@ -73,7 +73,7 @@ class TwitterAlternativeDownloader(AlternateVideoDownloader):
     @classmethod
     async def download_video_from_link(
         cls, url: str, path: str | None = None
-    ) -> VIDEO_RETURN_TYPE:
+    ) -> DownloadedVideos:
         if path is None:
             path = os.path.join("downloads", "twitter")
 
@@ -95,7 +95,7 @@ class TwitterDownloader(VideoDownloader):
     @classmethod
     async def download_video_from_link(
         cls, url: str, path: str | None = None
-    ) -> VIDEO_RETURN_TYPE:
+    ) -> DownloadedVideos:
         attachment_list: list[VideoFile] = []
         tweet_id = _get_tweet_id(url)
         if path is None:

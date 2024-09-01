@@ -1,14 +1,14 @@
 import os
 
 from Constants import MAX_VIDEO_DOWNLOAD_SIZE
-from src.downloader import VIDEO_RETURN_TYPE, AlternateVideoDownloader
+from src.downloader import DownloadedVideos, AlternateVideoDownloader
 
 
 class YoutubeDownloader(AlternateVideoDownloader):
     @classmethod
     async def download_video_from_link(
         cls, url: str, path: str | None = None
-    ) -> VIDEO_RETURN_TYPE:
+    ) -> DownloadedVideos:
         if path is None:
             path = os.path.join("downloads", "youtube")
 
