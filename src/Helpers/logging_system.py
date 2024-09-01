@@ -19,7 +19,7 @@ def is_server(only_true_if_cloud: bool = True) -> bool:
         return is_cloud
     if dev is not None and dev == "true":
         return False
-    return platform == "linux" or platform == "linux2"
+    return platform in {"linux", "linux2"}
 
 
 if is_server(only_true_if_cloud=False):
