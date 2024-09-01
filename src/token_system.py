@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 
 from src.Helpers.logging_system import is_server
 
-loaded = load_dotenv()
+load_dotenv()
 token = os.getenv("TOKEN")
 dev_token = os.getenv("DEV_TOKEN")
 
