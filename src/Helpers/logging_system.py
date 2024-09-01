@@ -2,6 +2,7 @@ import logging
 import os
 from sys import platform
 
+import google.auth.exceptions
 import google.cloud.logging
 from dotenv import load_dotenv
 
@@ -27,8 +28,8 @@ if is_server(only_true_if_cloud=False):
         google_client = google.cloud.logging.Client()
         google_client.get_default_handler()
         google_client.setup_logging(log_level=logging.DEBUG)
-    except Exception as e:
-        logging.error("Failed to setup google cloud logging", exc_info=e)
+    except google.auth.exceptions.DefaultCredentialsError:
+        logging.exception("Failed to setup google cloud logging", exc_info=True)
 else:
     format_string = (
         "%(asctime)s: %(name)s - %(levelname)s - %(message)s in %(filename)s:%(lineno)d"
