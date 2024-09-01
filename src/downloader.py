@@ -10,11 +10,14 @@ import yt_dlp
 
 _NONE_STRING = "Doesn't exist"
 
+
 class DownloaderError(Exception):
     pass
 
+
 class DownloadFailedError(DownloaderError):
     """Base exception for any errors created in downloading."""
+
     msg = None
 
     def __init__(self, msg=None):
@@ -24,16 +27,20 @@ class DownloadFailedError(DownloaderError):
             self.msg = type(self).__name__
         super().__init__(self.msg)
 
+
 class NoVideoFoundError(DownloaderError):
     pass
 
+
 class AbstractClassUsedError(DownloaderError):
     pass
+
 
 class VideoFile:
     """
     Video object that contains the title, and its file path.
     """
+
     def __init__(self, file_path: str, title: str | None = None) -> None:
         self._title = title
         self._file_path = file_path
@@ -42,7 +49,7 @@ class VideoFile:
         return f"Title: {self._title}, File Path: {self._file_path}"
 
     def __repr__(self) -> str:
-        return f'Title: {self._title or _NONE_STRING}, File Path: {self._file_path or _NONE_STRING}'
+        return f"Title: {self._title or _NONE_STRING}, File Path: {self._file_path or _NONE_STRING}"
 
     def __hash__(self) -> int:
         return hash((self._title, self._file_path))
@@ -80,8 +87,8 @@ class VideoFiles(list[VideoFile]):
         return full_title if full_title else None
 
 
-
 VIDEO_RETURN_TYPE = VideoFiles
+
 
 class VideoDownloader(ABC):
     """
@@ -90,7 +97,9 @@ class VideoDownloader(ABC):
 
     @classmethod
     @abstractmethod
-    async def download_video_from_link(cls, url: str, path: str | None = None) -> VIDEO_RETURN_TYPE:
+    async def download_video_from_link(
+        cls, url: str, path: str | None = None
+    ) -> VIDEO_RETURN_TYPE:
         """
         Downloads Videos from a url
         if path is None, the default path is downloads/{website_name}
@@ -108,14 +117,16 @@ class VideoDownloader(ABC):
             url,
             path,
         )
-        raise AbstractClassUsedError("VideoDownloader download_url interface was directly called")
+        raise AbstractClassUsedError(
+            "VideoDownloader download_url interface was directly called"
+        )
 
     @classmethod
     async def _download_link(cls, url: str, download_to: str) -> str | None:
         """
         Downloads a file from the given URL and saves it to the specified path.
-        
-        
+
+
         Warning:
             This function will not overwrite existing files. If the file already exists at the specified path, it will not be downloaded again.
 
@@ -145,7 +156,9 @@ class VideoDownloader(ABC):
         return download_to
 
     @classmethod
-    async def _download_links(cls, links: list[str], path: str, video_id: str) -> list[str]:
+    async def _download_links(
+        cls, links: list[str], path: str, video_id: str
+    ) -> list[str]:
         """Downloads files from a list of URLs and saves them to the specified path.
         Will not overwrite existing files. If a file already exists at the specified path, it will not be downloaded again.
         Adds _{index} to the filename to avoid overwriting files with the same name.
@@ -169,17 +182,32 @@ class VideoDownloader(ABC):
 
         return downloaded_paths
 
+
 class AlternateVideoDownloader(VideoDownloader):
     @classmethod
-    async def _get_list_from_ydt(cls, url: str, ydl_opts: dict[str, Any], path: str, title_key: str = "title", cookies: dict | None = None) -> VIDEO_RETURN_TYPE:
+    async def _get_list_from_ydt(
+        cls,
+        url: str,
+        ydl_opts: dict[str, Any],
+        path: str,
+        title_key: str = "title",
+        cookies: dict | None = None,
+    ) -> VIDEO_RETURN_TYPE:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             if cookies:
                 requests.utils.cookiejar_from_dict(cookies, ydl.cookiejar)
             try:
                 ydt = await asyncio.to_thread(ydl.extract_info, url, download=True)
             except yt_dlp.DownloadError as e:
-                logging.error("Couldn't download video from url: %s, Error: %s", url, e, exc_info=True)
-                raise DownloadFailedError(f"Couldn't download video from url: {url}") from e
+                logging.error(
+                    "Couldn't download video from url: %s, Error: %s",
+                    url,
+                    e,
+                    exc_info=True,
+                )
+                raise DownloadFailedError(
+                    f"Couldn't download video from url: {url}"
+                ) from e
 
         if ydt is None:
             raise DownloadFailedError(f"Couldn't download video from url: {url}")

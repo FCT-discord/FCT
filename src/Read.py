@@ -4,16 +4,17 @@ import os
 from typing import overload
 
 from Constants import JSON_FOLDER
+
 FILE_EXTENSION = ".json"
 
 
 @overload
-def json_read(name: str) -> dict: 
-    ...
+def json_read(name: str) -> dict: ...
+
 
 @overload
-def json_read(name: str, create_if_not_exists: bool = True) -> dict | None: 
-    ...
+def json_read(name: str, create_if_not_exists: bool = True) -> dict | None: ...
+
 
 def json_read(name: str, create_if_not_exists: bool = True) -> dict | None:
     """
@@ -37,7 +38,6 @@ def json_read(name: str, create_if_not_exists: bool = True) -> dict | None:
     return data
 
 
-
 def write_json(name: str, data: dict[str, str]) -> None:
     """
     Writes a json file with the given name and data
@@ -49,7 +49,7 @@ def write_json(name: str, data: dict[str, str]) -> None:
     if not name.startswith(JSON_FOLDER):
         name = os.path.join(JSON_FOLDER, name)
     os.makedirs(JSON_FOLDER, exist_ok=True)
-    with open(name, 'w+', encoding="utf-8") as f:
+    with open(name, "w+", encoding="utf-8") as f:
         json.dump(data, f, indent=4)
         f.close()
     logging.debug(f"Writing to {name}")

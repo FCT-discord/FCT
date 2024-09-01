@@ -30,8 +30,15 @@ if is_server(only_true_if_cloud=False):
     except Exception as e:
         logging.error("Failed to setup google cloud logging", exc_info=e)
 else:
-    format_string = '%(asctime)s: %(name)s - %(levelname)s - %(message)s in %(filename)s:%(lineno)d'
-    logging.basicConfig(level=logging.DEBUG, filename=f'{BOT_NAME}.log', filemode='w', format=format_string)
+    format_string = (
+        "%(asctime)s: %(name)s - %(levelname)s - %(message)s in %(filename)s:%(lineno)d"
+    )
+    logging.basicConfig(
+        level=logging.DEBUG,
+        filename=f"{BOT_NAME}.log",
+        filemode="w",
+        format=format_string,
+    )
     console = logging.StreamHandler()
     console.setLevel(logging.DEBUG)
     console.formatter = logging.Formatter(format_string)
