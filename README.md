@@ -11,13 +11,12 @@ Add it directly to your discord account by using the following link:
 https://discord.com/oauth2/authorize?client_id=1279590815827628174
 ## Demo
 
-Insert gif or link to demo
+Video Demo:
+https://github.com/user-attachments/assets/8d4cbe6f-bb55-45b0-820e-46866db8c231
 
 
-## Screenshots
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
-
+# HOSTING
 
 ## Environment Variables
 
