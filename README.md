@@ -1,9 +1,9 @@
 
 # FCT
 
-(F*ck Corperation Tactics)
+(F*ck Corporation Tactics)
 
-A simple discord user application/bot that lets you download videos from external websites directly to any chat you want.
+A simple Discord user application/bot that lets you download videos from external websites directly to any chat you want.
 
 ## Installation
 
@@ -12,7 +12,7 @@ https://discord.com/oauth2/authorize?client_id=1279590815827628174
 ## Demo
 
 Video Demo:
-https://github.com/user-attachments/assets/8d4cbe6f-bb55-45b0-820e-46866db8c231
+![github2](https://github.com/user-attachments/assets/c6d48a18-8269-40d6-ad91-9dc023da43c2)
 
 
 
@@ -43,13 +43,13 @@ The preferred way to use this is by using docker, which automatically is synced 
 The docker image link is: `docker.io/kytpbs/FCT`
 
 ### Python
-To most basically run this project do:
+To run this project do:
 
 ```bash
   python main.py
 ```
 
-args `main` or `bot` can be given to run using diffrent tokens
+args `main` or `bot` can be given to run using different tokens
 
 ## Running Tests
 
