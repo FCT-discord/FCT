@@ -185,14 +185,7 @@ class VideoDownloader(ABC):
 
 class AlternateVideoDownloader(VideoDownloader):
     @classmethod
-    async def _get_list_from_ydt(
-        cls,
-        url: str,
-        ydl_opts: dict[str, Any],
-        path: str,
-        title_key: str = "title",
-        cookies: dict | None = None,
-    ) -> DownloadedVideos:
+    async def _get_info_with_ydt(cls, url: str, ydl_opts: dict[str, Any], cookies: Optional[dict] = None) -> list[dict[str, Any]]:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             if cookies:
                 requests.utils.cookiejar_from_dict(cookies, ydl.cookiejar)
@@ -213,6 +206,23 @@ class AlternateVideoDownloader(VideoDownloader):
             raise DownloadFailedError(f"Couldn't download video from url: {url}")
 
         infos: list[dict[str, Any]] = ydt.get("entries", [ydt])
+
+        if not infos:
+            raise NoVideoFoundError(f"No video found on {url}")
+
+        return infos
+
+
+    @classmethod
+    async def _get_list_from_ydt(
+        cls,
+        url: str,
+        ydl_opts: dict[str, Any],
+        path: str,
+        title_key: str = "title",
+        cookies: dict | None = None,
+    ) -> DownloadedVideos:
+        infos = await cls._get_info_with_ydt(url, ydl_opts, cookies)
 
         attachment_list: list[VideoFile] = []
         title = infos[0].get(title_key, None)
