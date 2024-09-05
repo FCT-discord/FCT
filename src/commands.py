@@ -31,13 +31,16 @@ async def download_video_link_hidden(
     await download_video_command(interaction, content, is_ephemeral=True)
 
 
+@app_commands.allowed_installs(guilds=True, users=True)
+@app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
 @tree.command(
     name="ping",
     description="shows the latency of the bot, useful for checking if the bot is online",
 )
 async def ping(interaction: discord.Interaction):
     await interaction.response.send_message(
-        f"Pong: {round(discord_client.latency * 1000)}ms"
+        f"Pong: {round(discord_client.latency * 1000)}ms",
+        ephemeral=True,
     )
 
 
