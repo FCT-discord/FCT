@@ -3,7 +3,7 @@ from typing import Optional
 import discord
 from discord import app_commands
 
-import src.client as client
+from src import client
 from src.download_commands import download_video_command
 
 discord_client = client.get_client_instance()
