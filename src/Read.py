@@ -33,7 +33,7 @@ def json_read(name: str, create_if_not_exists: bool = True) -> dict | None:
         write_json(name, {})
         return {}
     with open(name, encoding="utf-8") as json_file:
-        logging.debug(f"Reading {name}")
+        logging.debug("Reading, %s", name)
         data = json.load(json_file)
     return data
 
@@ -52,4 +52,4 @@ def write_json(name: str, data: dict[str, str]) -> None:
     with open(name, "w+", encoding="utf-8") as f:
         json.dump(data, f, indent=4)
         f.close()
-    logging.debug(f"Writing to {name}")
+    logging.debug("Writing to %s", name)
