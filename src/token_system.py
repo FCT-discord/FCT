@@ -52,17 +52,18 @@ def get_token() -> str:
     if len(sys.argv) > 1:
         if sys.argv[1] == "dev":
             return get_dev_token()
-        elif sys.argv[1] == "main":
-            return get_main_token()
-        else:
-            logging.error("Unknown arg, please use main or dev")
 
-    take = input("Do you want to use the dev token? (y/n): ")
+        if sys.argv[1] == "main":
+            return get_main_token()
+
+        logging.error("Unknown arg, please use main or dev")
+
+    take = input("Do you want to use the dev token? (Y/n): ")
 
     if take.lower() == "n":
         return get_main_token()
-    else:
-        return get_dev_token()
+
+    return get_dev_token()
 
 
 if __name__ == "__main__":
