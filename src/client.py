@@ -1,6 +1,7 @@
 import logging
 
 import discord
+from discord import app_commands
 
 
 # noinspection PyMethodMayBeStatic
@@ -10,17 +11,18 @@ class MyClient(discord.Client):
         self.deleted = False
         self.synced = False
         self.old_channel = None
+        self._tree = app_commands.CommandTree(client)
 
     async def on_ready(self):
         await self.wait_until_ready()
         if not self.synced:
-            from src import commands  # pylint: disable=import-outside-toplevel # to avoid circular imports
-
-            tree = commands.get_tree_instance()
-            await tree.sync()
+            await self._tree.sync()
             self.synced = True
         logging.info("Logged on as %s", self.user)
 
+    @property
+    def tree(self):
+        return self._tree
 
 client = MyClient()
 

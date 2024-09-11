@@ -8,7 +8,7 @@ from src.download_commands import download_video_command
 
 discord_client = client.get_client_instance()
 
-tree = app_commands.CommandTree(discord_client)
+tree = discord_client.tree
 
 
 @app_commands.allowed_installs(guilds=True, users=True)
