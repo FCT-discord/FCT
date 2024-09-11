@@ -11,7 +11,7 @@ class MyClient(discord.Client):
         self.deleted = False
         self.synced = False
         self.old_channel = None
-        self._tree = app_commands.CommandTree(client)
+        self._tree = app_commands.CommandTree(self)
 
     async def on_ready(self):
         await self.wait_until_ready()
