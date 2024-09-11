@@ -82,8 +82,6 @@ class TwitterAlternativeDownloader(AlternateVideoDownloader):
         specific_options = {
             "format": "best",
             "outtmpl": os.path.join(path, "%(id)s.%(ext)s"),
-            "noplaylist": True,
-            "default_search": "auto",
             "nooverwrites": True,
             "quiet": True,
         }
