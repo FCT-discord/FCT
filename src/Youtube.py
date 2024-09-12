@@ -23,4 +23,4 @@ class YoutubeDownloader(AlternateVideoDownloader):
             "quiet": True,
         }
 
-        return await cls._get_list_from_ydt(url, costum_options, path)
+        return await cls._get_list_from_ydt(url, path, ydl_opts=costum_options)

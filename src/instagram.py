@@ -140,14 +140,8 @@ class InstagramAlternativeDownloader(AlternateVideoDownloader):
 
         cookies = json_read("instagram_session")
 
-        specific_options = {
-            "format": "best",
-            "outtmpl": os.path.join(path, "%(id)s.%(ext)s"),
-            "nooverwrites": True,
-            "quiet": True,
-        }
         return await cls._get_list_from_ydt(
-            url, specific_options, path, "description", cookies
+            url, path, title_key="description", cookies=cookies
         )
 
 

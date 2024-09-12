@@ -217,11 +217,20 @@ class AlternateVideoDownloader(VideoDownloader):
     async def _get_list_from_ydt(
         cls,
         url: str,
-        ydl_opts: dict[str, Any],
         path: str,
+        ydl_opts: Optional[dict[str, Any]] = None,
         title_key: str = "title",
         cookies: dict | None = None,
     ) -> DownloadedVideos:
+        if ydl_opts is None:
+            ydl_opts = {}
+        # add default options for ydl_opts
+        ydl_opts.setdefault("format", "best")
+        ydl_opts.setdefault("outtmpl", os.path.join(path, "%(id)s.%(ext)s"))
+        ydl_opts.setdefault("nooverwrites", True)
+        ydl_opts.setdefault("quiet", True)
+
+
         infos = await cls._get_info_with_ydt(url, ydl_opts, cookies)
 
         attachment_list: list[VideoFile] = []

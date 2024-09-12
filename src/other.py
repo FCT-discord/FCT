@@ -13,11 +13,9 @@ class UnknownAlternateDownloader(AlternateVideoDownloader):
         os.makedirs(path, exist_ok=True)
 
         ydt_opts = {
-            "outtmpl": os.path.join(path, "%(id)s.%(ext)s"),
             "noplaylist": True,
             "default_search": "auto",
             "nooverwrites": False,  # We may have a video with the same id from a different source
-            "quiet": True,
         }
 
-        return await cls._get_list_from_ydt(url, ydt_opts, path)
+        return await cls._get_list_from_ydt(url, path, ydl_opts=ydt_opts)

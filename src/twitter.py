@@ -79,14 +79,7 @@ class TwitterAlternativeDownloader(AlternateVideoDownloader):
 
         os.makedirs(path, exist_ok=True)
 
-        specific_options = {
-            "format": "best",
-            "outtmpl": os.path.join(path, "%(id)s.%(ext)s"),
-            "nooverwrites": True,
-            "quiet": True,
-        }
-
-        return await cls._get_list_from_ydt(url, specific_options, path)
+        return await cls._get_list_from_ydt(url, path)
 
 
 class TwitterDownloader(VideoDownloader):
