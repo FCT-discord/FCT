@@ -1,3 +1,4 @@
+import logging
 from typing import Optional
 
 import discord
@@ -52,6 +53,7 @@ async def download_video(
 ):
     await download_video_command(interaction, url, include_title=include_title)
 
-
-def get_tree_instance():
-    return tree
+def setup_commands():
+    logging.debug("Setting up commands")
+    # we don't actually need to do anything here, the decorators do all the work
+    # but this function is still needed to be called in main.py, since it will import this file
